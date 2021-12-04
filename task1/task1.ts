@@ -2,37 +2,58 @@ class Persona{
     
     private _nombre:string = "";
     private _edad?:number = 0;
-    private _dni:string;
+    private _dni:string = this.calcDni();
     private _SEXO?:string = "H";
     private _peso?:number = 0;
     private _altura?:number = 0;
+    
     constructor(dni?:string ){
 
-    this._dni = dni;
+        function calcDni(){
 
-    }
+            let numeroAleatorio = () => {
+                const numeros:number = 99999999;
+                let numAleatorio = Math.random() * (numeros + 1);
+                return Math.round(numAleatorio);
+    
+            }
+
+            let calculaLetra = () =>{
+                let numero = numeroAleatorio();
+                let juegoCaracteres: string="TRWAGMYFPDXBNJZSQVHLCKE";
+                let modulo= numero % 23;
+                let letra = juegoCaracteres.charAt(modulo);
+                return numero + letra; 
+            }
+    
+            return calculaLetra().toString();
+
+        }
+        dni ? this._dni = dni : this._dni = calcDni();
+}
 
     /**
      * name
      */
-    public calcularIMC(peso:number, altura:number):void {
+    public calcularIMC():void {
+
         const PESO_IDEAL = 0;
         const SOBRE_PESO = 1;
         const INFRA_PESO = -1;
 
-        let imc:number = peso / (altura*altura);
+        let imc:number = this._peso / (this._altura * this._altura);
 
         if (imc < 20) {
 
-            console.log(INFRA_PESO);
+           return console.log(INFRA_PESO,'Infra Peso');
             
         } else if(imc > 20){
 
-            console.log(SOBRE_PESO);
+            return console.log(SOBRE_PESO,'Sobre Peso');
             
         }else{
 
-            console.log(PESO_IDEAL);
+           return  console.log(PESO_IDEAL, 'PESO IDEAL');
             
         }
 
@@ -63,16 +84,38 @@ class Persona{
  :Object    */ 
     public toString() {
         
-        // let user = {
-        //     nombre: this._nombre
-        //     edad: this._edad
-        //     dni:this._dni
-        //     this._SEXO
-        //     this._peso
-        //     this._altura
-        // }
+        let user = {
+            nombre: this._nombre,
+            edad: this._edad,
+            dni:this._dni,
+            sexo:this._SEXO,
+            peso:this._peso,
+            altura:this._altura,
+        }
+        console.log(user);
         
         
+    }
+
+    private calcDni(){
+
+        let numeroAleatorio = () => {
+            const numeros:number = 99999999;
+            let numAleatorio = Math.random() * (numeros + 1);
+            return Math.round(numAleatorio);
+
+        }
+
+        let calculaLetra = (numeroAleatorio) =>{
+
+            let juegoCaracteres: string="TRWAGMYFPDXBNJZSQVHLCKE";
+            let modulo= numeroAleatorio % 23;
+            let letra = juegoCaracteres.charAt(modulo);
+            return letra; 
+        }
+
+        return (numeroAleatorio() + calculaLetra(numeroAleatorio)).toString();
+
         
     }
     
@@ -98,11 +141,6 @@ class Persona{
         return this._edad;
     }
 
-    
-    public set dni(v : string) {
-
-        this._dni = v;
-    }
 
     public get dni() : string {
 
@@ -150,11 +188,18 @@ public set altura(v: number) {
 }
 
 
-let alejandro = new Persona("y5861492w");
+let alejandro = new Persona();
+alejandro.nombre = "Alejandro"
 alejandro.edad = 32;
 alejandro.SEXO = "M"
+alejandro.altura = 1.75;
+alejandro.peso = 76;
 
-console.log(toString());
+console.log(alejandro.toString());
+console.log(alejandro.calcularIMC());
+console.log(alejandro.mayorDeEdad());
+
+
 
 
 
